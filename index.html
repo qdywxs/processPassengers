@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<p>请打开控制台，查看 console 打印信息！</p>
+	<script>
+		var passengers = [ {name: "Oli",paid: true},
+	                   {name: "Aman",paid: false},
+	                   {name: "Laden",paid: true},
+	                   {name: "Jobs",paid: true} ];
+
+		//第1️⃣个函数检查是否在禁飞名单。
+		function checkNoFlyList(passenger) {
+		  return (passenger.name === "Laden");
+		}
+
+		//第2️⃣个函数检查是否买票。
+		function checkNotPaid(passenger) {
+		  return (!passenger.paid);
+		}
+
+		//第3️⃣个函数打印相关信息。
+		function printPassenger(passenger) {
+		  var message = passenger.name;
+		  if(passenger.paid === true) {
+		    message = message + " has paid";
+		  }else {
+		    message = message + " has not paid";
+		  }
+		  console.log(message);
+		  return false;  //这个返回值没多大的意义，因为在 processPassengers 中，没有考虑这个返回的结果。
+		}
+
+		function processPassengers(passangers, testFunction) {
+		  for (var i = 0;i < passengers.length;i++) {  //以每次一位的方式迭代所有的乘客。
+		    if(testFunction(passengers[i])) {  //对于每位乘客，都调用传入的“函数”。如果这个“函数”返回的结果为 true ，就返回 false 。
+		      return false;
+		    }
+		  }
+		  return true;  //如果执行到这里，就说明所有乘客都通过了测试，因此返回 true 。
+		}	
+
+		//向函数传递函数很容易，只需将函数名用作实参即可。
+		var allCanFly = processPassengers(passengers,checkNoFlyList);
+		
+		if(!allCanFly) {
+		  console.log("The plane can't take off: we have a passenger on the no-fly-list.");
+		}
+
+
+		var allPaid = processPassengers(passengers,checkNotPaid);
+		
+		if(!allPaid) {
+		  console.log("The plane can't take off: not everyone has paid.");
+		}
+
+		processPassengers(passengers,printPassenger);
+		
+
+	</script>
+		
+</body>
+</html>
